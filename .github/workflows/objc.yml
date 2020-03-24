@@ -9,6 +9,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    
+uses: apple-actions/import-codesign-certs@v1
+with: 
+  p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+  p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,6 +26,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    
+    - name: Import Code-Signing Certificates
+      uses: Apple-Actions/import-codesign-certs@v1
 
     # Runs a single command using the runners shell
     - name: Run tests
